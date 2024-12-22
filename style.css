@@ -1,0 +1,17 @@
+/* テーブル全体のスタイル */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+  vertical-align: top; /* 文字列を上寄せ */
+}
+
+th {
+  background-color: #f4f4f4;
+}
