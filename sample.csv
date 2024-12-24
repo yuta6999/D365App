@@ -142,10 +142,11 @@ SalesTable（販売注文）,CustGroup（顧客グループ）,○,String,10,
 SalesTable（販売注文）,InvoiceAccount（請求先/元ID）,○,String,20,
 SalesTable（販売注文）,LanguageId（言語）,○,String,7,
 SalesTable（販売注文）,ShippingDateRequested（出荷予定日）,○,Date,,
-SalesTable（販売注文）,InventLocationId（倉庫）,,,,
-SalesTable（販売注文）,InventSiteId（サイト）,,,,
-SalesTable（販売注文）,SalesStatus（）,,,,
-SalesTable（販売注文）,DeliveryDate（）,,,,
+SalesTable（販売注文）,InventLocationId（倉庫）,,String,10,
+SalesTable（販売注文）,InventSiteId（サイト）,,String,10,
+SalesTable（販売注文）,SalesStatus（状態）,,Enum,,SalesStatus
+SalesTable（販売注文）,DeliveryDate（出荷日）,,Date,,
+SalesTable（販売注文）,TaxGroup（消費税グループ）,,String,10,TaxGroupHeading.TaxGroup
 SalesLine（注文明細行）,CustAccount（顧客）,○,String,20,
 SalesLine（注文明細行）,CurrencyCode（通貨）,○,String,3,
 SalesLine（注文明細行）,CustGroup（グループ）,○,String,10,
@@ -182,11 +183,14 @@ CompanyInfo（法人）,Name（名前）,○,String,160,
 CompanyInfo（法人）,PartyNumber（関係者ID）,○,String,40,
 CustPackingSlipTrans（顧客 - 梱包明細行）,DeliveryDate（出荷日）,○,Date,,
 CustPackingSlipTrans（顧客 - 梱包明細行）,PackingSlipId（梱包明細）,○,String,20,
+CustPackingSlipTrans（顧客 - 梱包明細行）,OrigSalesId（販売注文）,,String,20,SalesTable.SalesId
+CustPackingSlipTrans（顧客 - 梱包明細行）,SalesId（販売注文）,,String,20,SalesTable.SalesId
 CustPackingSlipJour（顧客の梱包明細）,InternalPackingSlipId（バージョン）,○,String,20,
 CustPackingSlipJour（顧客の梱包明細）,InvoiceAccount（請求先/元ID）,○,String,20,
 CustPackingSlipJour（顧客の梱包明細）,LanguageId（言語）,○,String,7,
 CustPackingSlipJour（顧客の梱包明細）,OrderAccount（注文顧客）,○,String,20,CustTable.AccountNum
 CustPackingSlipJour（顧客の梱包明細）,SalesId（販売注文）,○,String,20,SalesTable.SalesId
+CustPackingSlipJour（顧客の梱包明細）,PackingSlipId（梱包明細）,,String,20,
 CustTable（顧客）,AccountNum（顧客ID）,○,String,20,
 CustTable（顧客）,CurrencyCode（通貨）,○,String,3,
 CustTable（顧客）,CustGroup（顧客グループ）,○,String,10,
@@ -209,13 +213,17 @@ PriceDiscAdmTrans（売買契約仕訳帳明細行）,CurrencyCode（通貨）,�
 PriceDiscAdmTrans（売買契約仕訳帳明細行）,ItemCode（製品コードタイプ）,,Enum,,PriceDiscProductCodeType
 PriceDiscAdmTrans（売買契約仕訳帳明細行）,ItemRelation（品目関係）,,String,20,
 PriceDiscTable（価格協定）,Currency（通貨）,○,String,3,
+PriceDiscTable（価格協定）,AccountCode（関係者コードタイプ）,,Enum,,PriceDiscPartyCodeType
 PriceDiscTable（価格協定）,ItemCode（製品コードタイプ）,,Enum,,PriceDiscProductCodeType
 PriceDiscTable（価格協定）,ItemRelation（品目関係）,,String,20,
 PriceDiscTable（価格協定）,Amount（トランザクション通貨の金額）,,Real,,
 PriceDiscTable（価格協定）,UnitId（単位）,,String,10,
+PriceDiscTable（価格協定）,Module（モジュール）,,Enum,,ModuleInventCustVend
 TaxTrans（転記済消費税）,TaxCode（消費税コード）,○,String,10,
 TaxTrans（転記済消費税）,TransDate（日付）,○,Date,,
 TaxTrans（転記済消費税）,Voucher（伝票）,○,String,20,
+TaxGroupHeading（消費税グループの説明）,TaxGroup（消費税グループ）,○,String,10,PK
+TaxGroupHeading（消費税グループの説明）,TaxGroupName（説明）,,String,60,
 BOM（BOM明細行）,ItemId（品目番号）,○,String,20,
 BOM（BOM明細行）,UnitId（単位）,○,String,10,
 BOMTable（部品表）,BOMId（BOM）,○,String,20,
@@ -247,5 +255,34 @@ WMSPickingRoute（ピッキングルート）,endDateTime（終了日時）,,Utc
 WMSOrderTrans（在庫注文トランザクション）,itemId（品目番号）,○,String,20,InventTable.ItemId
 WMSOrderTrans（在庫注文トランザクション）,orderId（在庫注文）,○,String,20,WMSOrder.orderId
 WMSOrderTrans（在庫注文トランザクション）,inventTransRefId（番号）,,String,20,
-InventJournalTable（在庫仕訳帳テーブル）,JournalId（）,,,,
-InventJournalTrans（？？？）,JournalId（）,,,,
+WMSOrderTrans（在庫注文トランザクション）,customer（顧客）,,String,20,CustTable.AccountNum
+WMSOrderTrans（在庫注文トランザクション）,routeId（工順）,,String,20,WMSPickingRoute.pickingRouteID
+WMSOrderTrans（在庫注文トランザクション）,fullPallet（パレットロード）,,Enum,,NoYes
+InventJournalTable（在庫仕訳帳テーブル）,JournalId（仕訳帳）,○,String,20,PK
+InventJournalTable（在庫仕訳帳テーブル）,JournalNameId（名前）,○,String,10,
+InventJournalTrans（在庫仕訳帳明細行）,JournalId（仕訳帳）,○,String,20,PK
+InventJournalTrans（在庫仕訳帳明細行）,LineNum（明細行番号）,,Real,,PK
+InventJournalTrans（在庫仕訳帳明細行）,ItemId（品目番号）,○,String,20,
+InventJournalTrans（在庫仕訳帳明細行）,TransDate（日付）,○,Date,,
+InventQualityOrderTable（品質指示）,QuantityOrderId（品質指示）,○,String,20,PK
+InventQualityOrderTable（品質指示）,ItemId（品目番号）,○,String,20,
+InventQualityOrderTable（品質指示）,Qty（数量）,○,Real,,
+InventQualityOrderTable（品質指示）,TestGroupId（テストグループ）,○,String,10,InventTestGroup.TestGroupId
+InventQualityOrderTable（品質指示）,OrderStatus（ステータス）,,Enum,,InventTestOrderStatus
+InventQualityOrderTable（品質指示）,ValidatedByWorker（検証者）,,Int64,,HcmWorker.RecId
+InventQualityOrderTable（品質指示）,ValidatedDateTime（検証時刻）,,UtcDateTime,,
+InventQualityOrderLine（品質指示明細行）,QuantityOrderId（品質指示）,○,String,20,PK InventQualityOrderTable.QuantityOrderId
+InventQualityOrderLine（品質指示明細行）,TestSequence（順序番号）,○,Integer,,PK
+InventQualityOrderLine（品質指示明細行）,AcceptableQualityLevel（許容可能な品質レベル）,○,Real,,
+InventQualityOrderLine（品質指示明細行）,TestId（テスト）,○,String,20,
+InventQualityOrderLine（品質指示明細行）,VariableId（変数）,,String,20,InventTestVariable.VariableId
+InventQualityOrderLineResults（品質指示明細行の結果）,QuantityOrderId（品質指示）,○,String,20,PK InventQualityOrderLine.QuantityOrderId
+InventQualityOrderLineResults（品質指示明細行の結果）,TestSequence（順序番号）,○,Integer,,PK InventQualityOrderLine.TestSequence
+InventQualityOrderLineResults（品質指示明細行の結果）,TestId（テスト）,○,String,20,PK
+InventQualityOrderLineResults（品質指示明細行の結果）,LineNum（明細行番号）,,Real,,PK
+InventQualityOrderLineResults（品質指示明細行の結果）,TestResult（テスト結果）,,Enum,,InventTestOutcomeStatus
+InventTestTable（テスト）,TestId（テスト）,○,String,20,PK
+InventTestTable（テスト）,Description（説明）,,String,60,
+InventTestTable（テスト）,TestType（タイプ）,,Enum,,InventTestType
+InventTestVariable（テスト変数）,VariableId（変数）,○,String,20,PK
+InventTestVariable（テスト変数）,Description（説明）,,String,60,
