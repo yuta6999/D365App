@@ -90,7 +90,7 @@ InventItemSetupSupplyType（供給タイプの設定）,ItemId（品目番号）
 InventItemSetupSupplyType（供給タイプの設定）,DefaultOrderType（既定の注文タイプ）,,,Enum,-,ReqPOType,
 VendPackingSlipJour（仕入先製品受領書）,PurchId（発注書）,○,,String,20,-,
 VendPackingSlipJour（仕入先製品受領書）,PackingSlipId（製品受領書）,○,,String,20,-,
-VendPackingSlipJour（仕入先製品受領書）,DeliveryDate（配送日）,○,,Date,-,-,
+VendPackingSlipJour（仕入先製品受領書）,DeliveryDate（日付）,○,,Date,-,-,
 VendPackingSlipJour（仕入先製品受領書）,InvoiceAccount（請求先/元ID）,○,,String,20,-,
 VendPackingSlipJour（仕入先製品受領書）,LanguageId（言語）,○,,String,7,-,
 VendPackingSlipJour（仕入先製品受領書）,OrderAccount（注文顧客）,○,,String,20,-,
@@ -304,3 +304,17 @@ SourceDocumentLine（元伝票明細行）,SourceDocumentHeader（元伝票）,�
 SourceDocumentLine（元伝票明細行）,SourceRelationType（参照テーブルID）,○,,Integer,-,-,
 SourceDocumentLine（元伝票明細行）,TypeEnumName（列挙名）,○,,String,81,-,
 SourceDocumentLine（元伝票明細行）,TypeEnumValue（列挙値）,○,,Integer,-,-,
+VendInvoicelnfoTable（仕入先請求書）,ParmId（パラメーターID）,,P,String,20,,PurchParmUpdate.ParmId
+VendInvoicelnfoTable（仕入先請求書）,TableRefId（明細行参照）,○,P,String,20,,
+VendInvoicelnfoTable（仕入先請求書）,CurrencyCode（通貨）,○,,String,3,,
+VendInvoicelnfoTable（仕入先請求書）,InvoiceAccount（請求先/元ID）,○,,String,20,,
+VendInvoicelnfoTable（仕入先請求書）,DocumentDate（請求日）,,,Date,,,
+VendInvoicelnfoTable（仕入先請求書）,Num（請求書）,,,String,50,,
+VendInvoicelnfoTable（仕入先請求書）,ParmJobStatus（ジョブの状態）,,,Enum,,ParmJobStatus,
+VendInvoicelnfoTable（仕入先請求書）,TransDate（日付）,,,Date,,,
+VendInvoicelnfoTable（仕入先請求書）,PurchId（発注書）,,,String,20,,PurchTable.PurchId
+VendInvoicelnfoLine（仕入先請求明細行）,TableRefId（明細行参照）,○,P,String,20,,VendInvoicelnfoTable.TableRefId
+VendInvoicelnfoLine（仕入先請求明細行）,ParmId（パラメーターID）,,P,String,20,,VendInvoicelnfoTable.ParmId
+VendInvoicelnfoLine（仕入先請求明細行）,OrigPurchId（発注書）,,P,String,20,,PurchTable.PurchId
+VendInvoicelnfoLine（仕入先請求明細行）,LineNum（明細行番号）,,P,Real,,,
+VendInvoicelnfoLine（仕入先請求明細行）,PurchLineRecId（参照）,,,Int64,,,PurchLine.RecId
